@@ -10,15 +10,22 @@ import {
   Alert,
   Button,
 } from "react-native";
-import { RegistrationScreen } from "./Screens/RegistrationScreen";
+import bgImage from "../images/bg-reg.jpg";
 
-export default function App() {
-  return <RegistrationScreen />;
-}
+export const LoginScreen = () => {
+  return (
+    <View style={styles.container}>
+      <TextInput placeholder="Username" style={styles.input} />
+
+      <Button title={"Login"} style={styles.input} />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundImage: url(bgImage),
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#ecf0f1",
