@@ -11,6 +11,7 @@ import {
   Alert,
   Button,
   Pressable,
+  TouchableOpacity,
   Text,
   TextInput,
 } from "react-native";
@@ -18,6 +19,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 export const RegistrationScreen = () => {
   const [user, setUser] = useState({});
+  const [isKeyboardShown, setIsKeyboardShown] = useState(false);
   const handleSubmit = (event) => {
     const element = event.currentTarget.elements;
     setUser({
@@ -26,98 +28,125 @@ export const RegistrationScreen = () => {
       password: element.password.value,
     });
   };
+  const keyboardHide = () => {
+    setIsKeyboardShown(false);
+    Keyboard.dismiss();
+  };
   return (
-    <View style={styles.container}>
+    <TouchableWithoutFeedback onPress={keyboardHide}>
       <ImageBackground
         source={require("../images/bg-reg.jpg")}
-        resizeMode="cover"
         style={styles.image}
       >
-        <View style={styles.form_container}>
-          <KeyboardAvoidingView // определяем ОС и настраиваем поведение клавиатуры
-            behavior={Platform.OS == "ios" ? "padding" : "height"}
-            style={styles.form_container}
-            height="100%"
-          >
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" && "padding"}>
+          <TouchableWithoutFeedback onPress={keyboardHide}>
             <View
               style={[
-                styles.hero_container,
-                {
-                  transform: [{ translateX: -60 }],
-                },
+                styles.content_container,
+                {},
+                { paddingBottom: isKeyboardShown ? 35 : 80 },
               ]}
+              onPress={keyboardHide}
             >
-              <Image style={styles.hero_image} />
-              <Pressable>
-                <AntDesign
-                  name="pluscircleo"
-                  size={24}
-                  color="#ff6c00"
-                  style={styles.hero_button}
-                />
-              </Pressable>
-            </View>
-            <Text style={styles.title_text}>Реєстрація</Text>
-            <TextInput
-              placeholder="Логін"
-              style={styles.input}
-              placeholderTextColor="#bdbdbd"
-              name="login"
-            />
-            <TextInput
-              placeholder="Адресса електронної пошти"
-              style={styles.input}
-              inputMode="email"
-              placeholderTextColor="#bdbdbd"
-              name="email"
-            />
-            <TextInput
-              placeholder="Пароль"
-              style={styles.input}
-              placeholderTextColor="#bdbdbd"
-              name="password"
-            />
+              <View
+                style={[
+                  styles.hero_container,
+                  {
+                    transform: [{ translateX: -50 }],
+                  },
+                ]}
+              >
+                <Image style={styles.hero_image} />
+                <Pressable>
+                  <AntDesign
+                    name="pluscircleo"
+                    size={24}
+                    color="#ff6c00"
+                    style={styles.hero_button}
+                  />
+                </Pressable>
+              </View>
+              <Text style={styles.title_text}>Реєстрація</Text>
+              <TextInput
+                placeholder="Логін"
+                style={styles.input}
+                placeholderTextColor="#bdbdbd"
+                name="login"
+                onFocus={() => {
+                  setIsKeyboardShown(true);
+                }}
+              />
+              <TextInput
+                placeholder="Адреса електронної пошти"
+                style={styles.input}
+                inputMode="email"
+                placeholderTextColor="#bdbdbd"
+                name="email"
+                onFocus={() => {
+                  setIsKeyboardShown(true);
+                }}
+              />
+              <TextInput
+                placeholder="Пароль"
+                style={styles.input}
+                placeholderTextColor="#bdbdbd"
+                name="password"
+                secureTextEntry={true}
+                onFocus={() => {
+                  setIsKeyboardShown(true);
+                }}
+              />
 
-            <Pressable style={styles.button}>
-              <Text style={styles.button_text}>Зареєструватися</Text>
-            </Pressable>
-            <Pressable style={styles.link_text}>
-              <Text>Вже є аккаунт? Увійти</Text>
-            </Pressable>
-          </KeyboardAvoidingView>
-        </View>
+              {!isKeyboardShown && (
+                <View>
+                  <TouchableOpacity style={styles.button} activeOpacity={0.7}>
+                    <Text style={styles.button_text}>Зарегистрироваться</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity activeOpacity={0.7}>
+                    <Text style={styles.link_text}>
+                      Уже есть аккаунт? Войти
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
       </ImageBackground>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
-  },
   image: {
-    width: "100%",
-    height: "100%",
     flex: 1,
+    resizeMode: "cover",
     justifyContent: "flex-end",
+  },
+  content_container: {
+    position: "relative",
+    justifyContent: "center",
+    alignItems: "stretch",
+    paddingHorizontal: 16,
+    paddingTop: 92,
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
   },
   form_container: {
     width: "100%",
-    paddingHorizontal: 16,
-    flex: 0.6,
     position: "relative",
+    top: 0,
+    height: "100%",
     justifyContent: "center",
-    backgroundColor: "#ffffff",
     alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 40,
   },
   hero_container: {
     position: "absolute",
     top: -60,
     left: "50%",
-    marginBottom: 32,
   },
   hero_image: {
     backgroundColor: "#f6f6f6",
@@ -128,6 +157,7 @@ const styles = StyleSheet.create({
   hero_button: {
     position: "absolute",
     backgroundColor: "#ffffff",
+    borderRadius: 10,
     bottom: 14,
     right: -12.5,
   },
