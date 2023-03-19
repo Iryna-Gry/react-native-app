@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  StyleSheet,
   View,
   Image,
   ImageBackground,
@@ -9,102 +8,168 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  Button,
   Pressable,
   TouchableOpacity,
   Text,
   TextInput,
 } from "react-native";
+import { RegStyles } from "./styles";
 import { AntDesign } from "@expo/vector-icons";
 
+const intialState = {
+  login: "",
+  email: "",
+  password: "",
+};
+const initialFocusState = {
+  login: false,
+  email: false,
+  password: false,
+};
 export const RegistrationScreen = () => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(intialState);
   const [isKeyboardShown, setIsKeyboardShown] = useState(false);
-  const handleSubmit = (event) => {
-    const element = event.currentTarget.elements;
-    setUser({
-      login: element.login.value,
-      email: element.email.value,
-      password: element.password.value,
-    });
-  };
-  const keyboardHide = () => {
+  const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+
+  const [isFocused, setIsFocused] = useState(initialFocusState);
+
+  const handleTouchOut = () => {
     setIsKeyboardShown(false);
     Keyboard.dismiss();
   };
+  const handleOnBlur = (name) => {
+    setIsFocused((prevState) => ({ ...prevState, [name]: false }));
+  };
+  const handleSubmit = () => {
+    setIsKeyboardShown(false);
+    Keyboard.dismiss();
+    console.log(user);
+    setUser(intialState);
+  };
+
   return (
-    <TouchableWithoutFeedback onPress={keyboardHide}>
+    <TouchableWithoutFeedback onPress={handleTouchOut}>
       <ImageBackground
-        source={require("../images/bg-reg.jpg")}
-        style={styles.image}
+        source={require("../assets/images/bg-reg.jpg")}
+        style={RegStyles.image}
       >
         <KeyboardAvoidingView behavior={Platform.OS === "ios" && "padding"}>
-          <TouchableWithoutFeedback onPress={keyboardHide}>
+          <TouchableWithoutFeedback onPress={handleTouchOut}>
             <View
               style={[
-                styles.content_container,
+                RegStyles.content_container,
                 {},
                 { paddingBottom: isKeyboardShown ? 35 : 80 },
               ]}
-              onPress={keyboardHide}
+              onPress={handleTouchOut}
             >
               <View
                 style={[
-                  styles.hero_container,
+                  RegStyles.hero_container,
                   {
                     transform: [{ translateX: -50 }],
                   },
                 ]}
               >
-                <Image style={styles.hero_image} />
+                <Image style={RegStyles.hero_image} />
                 <Pressable>
                   <AntDesign
                     name="pluscircleo"
                     size={24}
                     color="#ff6c00"
-                    style={styles.hero_button}
+                    style={RegStyles.hero_button}
                   />
                 </Pressable>
               </View>
-              <Text style={styles.title_text}>Реєстрація</Text>
+              <Text style={RegStyles.title_text}>Реєстрація</Text>
               <TextInput
                 placeholder="Логін"
-                style={styles.input}
+                style={{
+                  ...RegStyles.input,
+                  borderColor: isFocused.login ? "#FF6C00" : "#E8E8E8",
+                }}
                 placeholderTextColor="#bdbdbd"
                 name="login"
+                value={user.login}
                 onFocus={() => {
                   setIsKeyboardShown(true);
+                  setIsFocused((prevState) => ({
+                    ...prevState,
+                    login: true,
+                  }));
                 }}
+                onBlur={() => handleOnBlur("login")}
+                onChangeText={(value) =>
+                  setUser((prevState) => ({ ...prevState, login: value }))
+                }
               />
               <TextInput
                 placeholder="Адреса електронної пошти"
-                style={styles.input}
+                style={{
+                  ...RegStyles.input,
+                  borderColor: isFocused.email ? "#FF6C00" : "#E8E8E8",
+                }}
                 inputMode="email"
                 placeholderTextColor="#bdbdbd"
                 name="email"
+                value={user.email}
                 onFocus={() => {
                   setIsKeyboardShown(true);
+                  setIsFocused((prevState) => ({
+                    ...prevState,
+                    email: true,
+                  }));
                 }}
+                onBlur={() => handleOnBlur("email")}
+                onChangeText={(value) =>
+                  setUser((prevState) => ({ ...prevState, email: value }))
+                }
               />
-              <TextInput
-                placeholder="Пароль"
-                style={styles.input}
-                placeholderTextColor="#bdbdbd"
-                name="password"
-                secureTextEntry={true}
-                onFocus={() => {
-                  setIsKeyboardShown(true);
-                }}
-              />
+              <View style={RegStyles.password_view}>
+                <TextInput
+                  placeholder="Пароль"
+                  style={{
+                    ...RegStyles.input,
+                    borderColor: isFocused.password ? "#FF6C00" : "#E8E8E8",
+                  }}
+                  placeholderTextColor="#bdbdbd"
+                  name="password"
+                  value={user.password}
+                  secureTextEntry={isPasswordHidden}
+                  onFocus={() => {
+                    setIsKeyboardShown(true);
+                    setIsFocused((prevState) => ({
+                      ...prevState,
+                      password: true,
+                    }));
+                  }}
+                  onBlur={() => handleOnBlur("password")}
+                  onChangeText={(value) =>
+                    setUser((prevState) => ({ ...prevState, password: value }))
+                  }
+                />
+                <TouchableOpacity
+                  style={RegStyles.showButton}
+                  onPress={() => setIsPasswordHidden((prevState) => !prevState)}
+                >
+                  <Text style={RegStyles.showButton_text}>
+                    {isPasswordHidden ? "Показати" : "Приховати"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
 
               {!isKeyboardShown && (
                 <View>
-                  <TouchableOpacity style={styles.button} activeOpacity={0.7}>
-                    <Text style={styles.button_text}>Зарегистрироваться</Text>
+                  <TouchableOpacity
+                    style={RegStyles.button}
+                    activeOpacity={0.7}
+                    onPress={handleSubmit}
+                  >
+                    <Text style={RegStyles.button_text}>Зареєструватися</Text>
                   </TouchableOpacity>
                   <TouchableOpacity activeOpacity={0.7}>
-                    <Text style={styles.link_text}>
-                      Уже есть аккаунт? Войти
+                    <Text style={RegStyles.link_text}>
+                      Вже є аккаунт? Увійти
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -116,94 +181,3 @@ export const RegistrationScreen = () => {
     </TouchableWithoutFeedback>
   );
 };
-
-const styles = StyleSheet.create({
-  image: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "flex-end",
-  },
-  content_container: {
-    position: "relative",
-    justifyContent: "center",
-    alignItems: "stretch",
-    paddingHorizontal: 16,
-    paddingTop: 92,
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-  },
-  form_container: {
-    width: "100%",
-    position: "relative",
-    top: 0,
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 40,
-  },
-  hero_container: {
-    position: "absolute",
-    top: -60,
-    left: "50%",
-  },
-  hero_image: {
-    backgroundColor: "#f6f6f6",
-    width: 120,
-    height: 120,
-    borderRadius: 16,
-  },
-  hero_button: {
-    position: "absolute",
-    backgroundColor: "#ffffff",
-    borderRadius: 10,
-    bottom: 14,
-    right: -12.5,
-  },
-
-  title_text: {
-    fontWeight: 500,
-    fontSize: 30,
-    lineHeight: 35,
-    textAlign: "center",
-    color: "#212121",
-    marginBottom: 33,
-  },
-  input: {
-    width: "100%",
-    height: 50,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#e8e8e8",
-    marginBottom: 16,
-    backgroundColor: "#f6f6f6",
-    borderRadius: 8,
-  },
-  button: {
-    backgroundColor: "#ff6c00",
-    width: "100%",
-    paddingVertical: 16,
-    paddingHorizontal: 32,
-    borderRadius: 100,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 27,
-    marginBottom: 16,
-  },
-  button_text: {
-    fontWeight: 400,
-    fontSize: 16,
-    lineHeight: 19,
-    textAlign: "center",
-    color: "#FFFFFF",
-  },
-  link_text: {
-    fontWeight: 400,
-    fontSize: 16,
-    lineHeight: 19,
-    textAlign: "center",
-    color: "#1B4371",
-  },
-});

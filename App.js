@@ -1,16 +1,7 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  TouchableWithoutFeedback,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  Alert,
-  Button,
-} from "react-native";
+import { StyleSheet } from "react-native";
 import { RegistrationScreen } from "./Screens/RegistrationScreen";
+import { LoginScreen } from "./Screens/LoginScreen";
 
 export default function App() {
   return <RegistrationScreen />;
