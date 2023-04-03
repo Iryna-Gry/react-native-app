@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
-import { RegistrationScreen } from "./Screens/RegistrationScreen";
-import { LoginScreen } from "./Screens/LoginScreen";
-
+import { NavigationContainer } from "@react-navigation/native";
+import { useRoute } from "./router";
 export default function App() {
-  return <RegistrationScreen />;
+  const routing = useRoute(true);
+  return <NavigationContainer>{routing}</NavigationContainer>;
 }
 
 const styles = StyleSheet.create({

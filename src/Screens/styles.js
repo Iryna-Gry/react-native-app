@@ -46,7 +46,7 @@ export const RegStyles = StyleSheet.create({
   },
 
   title_text: {
-    fontWeight: 500,
+    fontWeight: "500",
     fontSize: 30,
     lineHeight: 35,
     textAlign: "center",
@@ -76,14 +76,14 @@ export const RegStyles = StyleSheet.create({
     marginBottom: 16,
   },
   button_text: {
-    fontWeight: 400,
+    fontWeight: "400",
     fontSize: 16,
     lineHeight: 19,
     textAlign: "center",
     color: "#FFFFFF",
   },
   link_text: {
-    fontWeight: 400,
+    fontWeight: "400",
     fontSize: 16,
     lineHeight: 19,
     textAlign: "center",

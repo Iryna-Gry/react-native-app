@@ -7,26 +7,21 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  Alert,
-  Pressable,
   TouchableOpacity,
   Text,
   TextInput,
 } from "react-native";
-import { RegStyles } from "./styles";
-import { AntDesign } from "@expo/vector-icons";
+import { RegStyles } from "../styles";
 
 const intialState = {
-  login: "",
   email: "",
   password: "",
 };
 const initialFocusState = {
-  login: false,
   email: false,
   password: false,
 };
-export const RegistrationScreen = () => {
+export const LoginScreen = ({ navigation }) => {
   const [user, setUser] = useState(intialState);
   const [isKeyboardShown, setIsKeyboardShown] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
@@ -50,7 +45,7 @@ export const RegistrationScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={handleTouchOut}>
       <ImageBackground
-        source={require("../assets/images/bg-reg.jpg")}
+        source={require("../../../assets/images/bg-reg.jpg")}
         style={RegStyles.image}
       >
         <KeyboardAvoidingView behavior={Platform.OS === "ios" && "padding"}>
@@ -58,51 +53,12 @@ export const RegistrationScreen = () => {
             <View
               style={[
                 RegStyles.content_container,
-                {},
-                { paddingBottom: isKeyboardShown ? 35 : 80 },
+                { paddingBottom: isKeyboardShown ? 35 : 144, paddingTop: 32 },
               ]}
               onPress={handleTouchOut}
             >
-              <View
-                style={[
-                  RegStyles.hero_container,
-                  {
-                    transform: [{ translateX: -50 }],
-                  },
-                ]}
-              >
-                <Image style={RegStyles.hero_image} />
-                <Pressable>
-                  <AntDesign
-                    name="pluscircleo"
-                    size={24}
-                    color="#ff6c00"
-                    style={RegStyles.hero_button}
-                  />
-                </Pressable>
-              </View>
-              <Text style={RegStyles.title_text}>Реєстрація</Text>
-              <TextInput
-                placeholder="Логін"
-                style={{
-                  ...RegStyles.input,
-                  borderColor: isFocused.login ? "#FF6C00" : "#E8E8E8",
-                }}
-                placeholderTextColor="#bdbdbd"
-                name="login"
-                value={user.login}
-                onFocus={() => {
-                  setIsKeyboardShown(true);
-                  setIsFocused((prevState) => ({
-                    ...prevState,
-                    login: true,
-                  }));
-                }}
-                onBlur={() => handleOnBlur("login")}
-                onChangeText={(value) =>
-                  setUser((prevState) => ({ ...prevState, login: value }))
-                }
-              />
+              <Text style={{ ...RegStyles.title_text }}>Вхід</Text>
+
               <TextInput
                 placeholder="Адреса електронної пошти"
                 style={{
@@ -165,11 +121,14 @@ export const RegistrationScreen = () => {
                     activeOpacity={0.7}
                     onPress={handleSubmit}
                   >
-                    <Text style={RegStyles.button_text}>Зареєструватися</Text>
+                    <Text style={RegStyles.button_text}>Увійти</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity activeOpacity={0.7}>
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => navigation.navigate("Registration")}
+                  >
                     <Text style={RegStyles.link_text}>
-                      Вже є аккаунт? Увійти
+                      Ще нема аккаунта? Зареєструватися
                     </Text>
                   </TouchableOpacity>
                 </View>
