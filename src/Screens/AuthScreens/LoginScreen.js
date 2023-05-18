@@ -38,7 +38,7 @@ export const LoginScreen = ({ navigation }) => {
   const handleSubmit = () => {
     setIsKeyboardShown(false);
     Keyboard.dismiss();
-    console.log(user);
+    navigation.navigate("Home");
     setUser(intialState);
   };
 

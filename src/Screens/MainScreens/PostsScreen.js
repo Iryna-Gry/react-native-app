@@ -45,7 +45,6 @@ export const PostsScreen = ({ route, navigation }) => {
   }, [route.params]);
   return (
     <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
-      <Header title="Публікації" />
       <View style={styles.container}>
         <View
           style={{
@@ -86,7 +85,7 @@ export const PostsScreen = ({ route, navigation }) => {
           style={{
             width: "100%",
             marginTop: 2,
-            marginBottom: 220,
+            marginBottom: 130,
           }}
         >
           <FlatList

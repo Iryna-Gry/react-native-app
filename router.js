@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { RegistrationScreen } from "./src/Screens/AuthScreens/RegistrationScreen";
 import { LoginScreen } from "./src/Screens/AuthScreens/LoginScreen";
-import { PostsScreen } from "./src/Screens/MainScreens/PostsScreen";
+import { MapScreen } from "./src/Screens/MainScreens/MapScreen";
 import { ProfileScreen } from "./src/Screens/MainScreens/ProfileScreen";
 import { CreatePostsScreen } from "./src/Screens/MainScreens/CreatePostsScreen";
 import { Feather } from "@expo/vector-icons";
-import { Home } from "./src/Screens/MainScreens/Home";
+import Home from "./src/Screens/MainScreens/Home";
 import { TouchableOpacity, Text } from "react-native";
+import CommentsScreen from "./src/Screens/MainScreens/CommentsScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const MainStack = createStackNavigator();
@@ -90,8 +91,8 @@ export const useRoute = (isLoggedIn) => {
       {isLoggedIn && (
         <>
           <MainStack.Screen name="Home" component={Home} />
-          {/* <MainStack.Screen name="Create Post" component={CreatePostsScreen} />
-          <MainStack.Screen name="Profile" component={ProfileScreen} /> */}
+          <MainStack.Screen name="CreatePosts" component={CreatePostsScreen} />
+          <MainStack.Screen name="Profile" component={ProfileScreen} />
           <MainStack.Screen name="Login">
             {(props) => (
               <LoginScreen

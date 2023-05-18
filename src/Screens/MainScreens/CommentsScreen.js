@@ -7,33 +7,34 @@ import {
   Keyboard,
   Image,
 } from "react-native";
-import KeyboardContainer from "../../../components/KeyboardContainer";
+// import KeyboardContainer from "../../../components/KeyboardContainer";
 import { TextInput } from "react-native-gesture-handler";
-import { SendIcon } from "../../../components/svg";
+
+import { Ionicons } from "@expo/vector-icons";
 
 const initialComments = [
   {
     user: {
       name: "Pablo",
       email: "pablo32@gmail.com",
-      photo: require("../../../images/defaultCommentator.png"),
+      photo: require("../../../assets/images/commentor.jpg"),
       id: 10,
     },
     comment:
       "Really love your most recent photo. I’ve been trying to capture the same thing for a few months and would love some tips!",
-    time: "04 april, 2023 | 10:47",
+    time: "09 june, 2020 | 08:40",
     id: 10,
   },
   {
     user: {
-      name: "Ron",
-      email: "yulia@gmail.com",
-      photo: require("../../../images/defaultCommentator.png"),
+      name: "Iryna",
+      email: "ira.gricaenko@gmail.com",
+      photo: require("../../../assets/images/commentor.jpg"),
       id: 12,
     },
     comment:
       "A fast 50mm like f1.8 would help with the bokeh. I’ve been using primes as they tend to get a bit sharper images.",
-    time: "08 february, 2022 | 13:12",
+    time: "09 june, 2020 | 09:14",
     id: 12,
   },
 ];
@@ -82,7 +83,7 @@ const CommentsScreen = ({ route, navigation }) => {
           user: {
             name: "Iryna",
             email: "ira.gricaenko@gmail.com",
-            photo: require("../../../images/defaultCommentator.png"),
+            photo: require("../../../assets/images/commentor.jpg"),
             id: 13,
           },
           comment: inputComment,
@@ -95,58 +96,61 @@ const CommentsScreen = ({ route, navigation }) => {
     hideKeyboard();
   };
   return (
-    <KeyboardContainer hideKeyboard={hideKeyboard}>
-      <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
-        <View
+    // <KeyboardContainer hideKeyboard={hideKeyboard}>
+    <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
+      <View
+        style={{
+          marginTop: 32,
+          marginBottom: 16,
+        }}
+      >
+        <Image source={{ uri: route.params.img }} style={styles.postImage} />
+        <FlatList
           style={{
-            marginTop: 32,
-            marginBottom: 16,
+            width: "100%",
           }}
-        >
-          <Image source={{ uri: route.params.img }} style={styles.postImage} />
-          <FlatList
-            style={{
-              width: "100%",
-            }}
-            scrollEnabled={true}
-            data={comments}
-            renderItem={({ item }) => {
-              return (
-                <View style={styles.commentsContainer}>
-                  <View style={styles.commentWrap}>
-                    <Image
-                      style={styles.userAvatar}
-                      source={require("../../../images/defaultCommentator.png")}
-                    />
-                    <View style={styles.textWrap}>
-                      <Text style={styles.text}>{item.comment}</Text>
-                      <Text style={styles.textTime}>{item.time}</Text>
-                    </View>
+          scrollEnabled={true}
+          data={comments}
+          renderItem={({ item }) => {
+            return (
+              <View style={styles.commentsContainer}>
+                <View style={styles.commentWrap}>
+                  <Image
+                    style={styles.userAvatar}
+                    source={require("../../../assets/images/commentor.jpg")}
+                  />
+                  <View style={styles.textWrap}>
+                    <Text style={styles.text}>{item.comment}</Text>
+                    <Text style={styles.textTime}>{item.time}</Text>
                   </View>
                 </View>
-              );
+              </View>
+            );
+          }}
+          keyExtractor={(item) => item.id}
+        ></FlatList>
+        <View style={styles.inputWrap}>
+          <TextInput
+            style={styles.input}
+            placeholder="Comment..."
+            placeholderTextColor="#BDBDBD"
+            value={inputComment}
+            onChangeText={(inputValue) => setInputComment(inputValue)}
+            onFocus={() => {
+              handleActiveKeyboard();
             }}
-            keyExtractor={(item) => item.id}
-          ></FlatList>
+            onSubmitEditing={hideKeyboard}
+          ></TextInput>
 
-          <View style={styles.inputWrap}>
-            <TextInput
-              style={styles.input}
-              placeholder="Comment..."
-              placeholderTextColor="#BDBDBD"
-              value={inputComment}
-              onChangeText={(inputValue) => setInputComment(inputValue)}
-              onFocus={() => {
-                handleActiveKeyboard();
-              }}
-              onSubmitEditing={hideKeyboard}
-            ></TextInput>
-
-            <SendIcon style={styles.iconSend} onPress={onSubmit} />
-          </View>
+          <Ionicons
+            name="arrow-up-circle"
+            style={styles.iconSend}
+            onPress={onSubmit}
+          />
         </View>
       </View>
-    </KeyboardContainer>
+    </View>
+    // </KeyboardContainer>
   );
 };
 export default CommentsScreen;

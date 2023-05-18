@@ -2,13 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CreatePostsScreen } from "./CreatePostsScreen";
 import { PostsScreen } from "./PostsScreen";
 import { ProfileScreen } from "./ProfileScreen";
-import {
-  ArrowLeftIcon,
-  GridIcon,
-  LogOutIcon,
-  PlusIcon,
-  UserIcon,
-} from "../../../components/svg";
+import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
 import useRoute from "../../../router";
 import { Alert } from "react-native";
 
@@ -23,10 +17,11 @@ const Home = ({ navigation }) => {
         headerTitleAlign: "center",
         headerRight: () => {
           return (
-            <LogOutIcon
+            <MaterialIcons
+              name="logout"
+              size={24}
+              color="rgba(33, 33, 33, 0.8)"
               onPress={() => {
-                console.log("Out");
-
                 navigation.navigate("Login");
               }}
             />
@@ -37,7 +32,7 @@ const Home = ({ navigation }) => {
         tabBarStyle: {
           justifyContent: "center",
           alignItems: "center",
-          height: 83,
+          height: 60,
         },
       }}
     >
@@ -45,7 +40,13 @@ const Home = ({ navigation }) => {
         name="Posts"
         component={PostsScreen}
         options={{
-          tabBarIcon: () => <GridIcon />,
+          tabBarIcon: ({ focused }) => (
+            <Feather
+              name="grid"
+              size={24}
+              color={focused ? "#FF6C00" : "rgba(33, 33, 33, 0.8)"}
+            />
+          ),
         }}
       />
       <Tabs.Screen
@@ -54,14 +55,26 @@ const Home = ({ navigation }) => {
         options={{
           headerRight: () => null,
           headerLeft: () => (
-            <ArrowLeftIcon
+            <AntDesign
+              name="arrowleft"
+              size={24}
+              color="rgba(33, 33, 33, 0.8)"
               onPress={() => {
                 navigation.navigate("Posts");
               }}
             />
           ),
           headerLeftContainerStyle: { paddingLeft: 16 },
-          tabBarIcon: () => <PlusIcon />,
+          tabBarIcon: () => (
+            <AntDesign
+              name="pluscircle"
+              size={24}
+              color="#FF6C00"
+              onPress={() => {
+                navigation.navigate("CreatePosts");
+              }}
+            />
+          ),
           tabBarStyle: { display: "none" },
         }}
       />
@@ -69,7 +82,16 @@ const Home = ({ navigation }) => {
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarIcon: () => <UserIcon />,
+          tabBarIcon: ({ focused }) => (
+            <Feather
+              name="user"
+              size={24}
+              color={focused ? "#FF6C00" : "rgba(33, 33, 33, 0.8)"}
+              onPress={() => {
+                navigation.navigate("Profile");
+              }}
+            />
+          ),
           headerShown: false,
         }}
       />
