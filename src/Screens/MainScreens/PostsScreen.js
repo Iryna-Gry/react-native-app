@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Header } from "../../Components/Header/Header";
 import { Feather } from "@expo/vector-icons";
-import { RegStyles } from "../styles";
+import heroImg from "../../../assets/images/hero.jpg";
 
 const initialPosts = [
   {
@@ -26,7 +26,7 @@ const initialPosts = [
     photo: require("../../../assets/images/evening.jpg"),
     name: "Amazing evening",
     location: "",
-    locationDescription: "Ivano-Frankivs'k Region, Ukraine",
+    locationDescription: "Ivano-Frankivsk Region, Ukraine",
     comments: [{ id: 3 }, { id: 4 }],
   },
   {
@@ -34,7 +34,7 @@ const initialPosts = [
     photo: require("../../../assets/images/forrest.jpg"),
     name: "Forest Mountain",
     location: "",
-    locationDescription: "Ivano-Frankivs'k Region, Ukraine",
+    locationDescription: "Ivano-Frankivsk Region, Ukraine",
     comments: [{ id: 5 }, { id: 6 }, { id: 7 }],
   },
 ];
@@ -55,7 +55,7 @@ export const PostsScreen = ({ route, navigation }) => {
         >
           <View>
             <Image
-              source={require("../../../assets/images/hero.jpg")}
+              source={heroImg}
               style={{ width: 60, height: 60, borderRadius: 16 }}
             />
           </View>
@@ -85,8 +85,8 @@ export const PostsScreen = ({ route, navigation }) => {
         <SafeAreaView
           style={{
             width: "100%",
-            marginTop: 16,
-            marginBottom: 60,
+            marginTop: 2,
+            marginBottom: 220,
           }}
         >
           <FlatList
@@ -107,7 +107,7 @@ export const PostsScreen = ({ route, navigation }) => {
 
                       resizeMode: "cover",
                     }}
-                    source={{ uri: item.photo }}
+                    source={item.photo}
                   />
 
                   <Text
@@ -126,7 +126,6 @@ export const PostsScreen = ({ route, navigation }) => {
                       marginTop: 11,
                     }}
                   >
-                    {/* /**Comments section */}
                     <Pressable
                       style={{
                         flexDirection: "row",
@@ -140,22 +139,20 @@ export const PostsScreen = ({ route, navigation }) => {
                       <Feather
                         name="message-circle"
                         size={24}
-                        color="#ff6c00"
-                        style={RegStyles.hero_button}
+                        color="#bdbdbd"
                       />
                       <Text
                         style={{
                           marginLeft: 6,
                           fontSize: 16,
                           lineHeight: 19,
-                          color: "#BDBDBD",
+                          color: "#bdbdbd",
                         }}
                       >
                         {item.comments ? item.comments.length : 0}
                       </Text>
                     </Pressable>
 
-                    {/* Map section */}
                     <Pressable
                       style={{ flexDirection: "row" }}
                       onPress={() => {
@@ -170,8 +167,8 @@ export const PostsScreen = ({ route, navigation }) => {
                       <Feather
                         name="map-pin"
                         size={24}
-                        color="#ff6c00"
-                        style={RegStyles.hero_button}
+                        color="#BDBDBD"
+                        style={{ marginRight: 8 }}
                       />
                       <Text
                         style={{
@@ -199,5 +196,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     marginTop: 32,
     marginBottom: 0,
+    paddingHorizontal: 16,
   },
 });
